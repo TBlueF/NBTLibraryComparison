@@ -92,7 +92,10 @@ public interface NBTLibrary {
 
         do {
             int read = src.read(bb);
-            if (read < 0) throw new EOFException();
+            if (read < 0)
+                // zero out all the remaining data from the buffer
+                while (bb.remaining() > 0)
+                    bb.put((byte) 0);
         } while (bb.remaining() > 0);
     }
 
